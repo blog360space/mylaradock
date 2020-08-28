@@ -290,7 +290,7 @@ services:
     docker-in-docker:
       image: docker:19.03-dind
       environment:
-        DOCKER_TLS_SAN: DNS:docker-in-docker      
+        DOCKER_TLS_SAN: DNS:docker-in-docker
       privileged: true
       volumes:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
@@ -328,3 +328,14 @@ services:
         - NGROK_PORT=nginx:80
       ports:
         - "4040:4040"
+
+### MongoDB ##############################################
+mongo:
+  build: ./mongo
+  ports:
+    - "${MONGODB_PORT}:27017"
+  volumes:
+    - ${DATA_PATH_HOST}/mongo:/data/db
+    - ${DATA_PATH_HOST}/mongo_config:/data/configdb
+  networks:
+    - backend
